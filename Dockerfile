@@ -5,7 +5,7 @@ ENV TZ=America/Los_Angeles
 
 RUN apt-get update && \
     apt-get -y upgrade && \
-    apt-get -y install wget tar apache2 libapache2-mod-php php-xml
+    apt-get -y install wget tar apache2 libapache2-mod-php php-xml php-mbstring
 
 RUN a2enmod rewrite
 
