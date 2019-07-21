@@ -29,7 +29,8 @@ RUN cd /var/www/dokuwiki/lib/plugins && \
     wget -O markdowku.tar.gz https://komkon2.de/markdowku/markdowku.tgz && \
     mkdir markdowku && \
     tar xvf markdowku.tar.gz -C markdowku --strip-components=1 && \
-    rm -rf *tar.gz 
+    rm -rf *tar.gz && \
+    chown -R www-data:www-data . 
 
 
 COPY apache2.conf /etc/apache2/apache2.conf
