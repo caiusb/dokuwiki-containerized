@@ -7,7 +7,8 @@ RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get -y install wget tar apache2 libapache2-mod-php php-xml php-mbstring php-gd
 
-RUN a2enmod rewrite
+RUN a2enmod rewrite && \
+    a2enmod ssl
 
 RUN cd /var/www && \
     wget https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz && \
@@ -34,11 +35,9 @@ RUN cd /var/www/dokuwiki/lib/plugins && \
 
 
 COPY apache2.conf /etc/apache2/apache2.conf
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY htaccess /var/www/dokuwiki/.htaccess
 
-RUN service apache2 restart
-
-RUN sed -i s%/var/www/html%/var/www/dokuwiki%g /etc/apache2/sites-enabled/000-default.conf
 RUN echo '<?php \n\
 // DO NOT use a closing php tag. This causes a problem with the feeds, \n\
 // among other things. For more information on this issue, please see: \n\
@@ -46,6 +45,6 @@ RUN echo '<?php \n\
 \n\
 define('"'"'DOKU_CONF'"'"','"'"'/wiki/conf/'"'"');' > /var/www/dokuwiki/inc/preload.php 
 
-EXPOSE 80
+EXPOSE 80 443
 
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
