@@ -30,9 +30,11 @@ RUN cd /var/www/dokuwiki/lib/plugins && \
     wget -O markdowku.tar.gz https://komkon2.de/markdowku/markdowku.tgz && \
     mkdir markdowku && \
     tar xvf markdowku.tar.gz -C markdowku --strip-components=1 && \
+    wget -O meta.tar.gz https://github.com/dokufreaks/plugin-meta/tarball/master && \
+    mkdir meta && \
+    tar xvf meta.tar.gz -C meta --strip-components=1 && \
     rm -rf *tar.gz && \
     chown -R www-data:www-data . 
-
 
 COPY apache2.conf /etc/apache2/apache2.conf
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
