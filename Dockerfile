@@ -1,4 +1,4 @@
-FROM ubuntu:disco
+FROM ubuntu:noble
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
@@ -15,10 +15,7 @@ RUN cd /var/www && \
     tar xvf dokuwiki-stable.tgz && \
     mv dokuwiki-*/ dokuwiki && \
     rm -rf dokuwiki-stable.tgz && \
-    chown -R www-data:www-data /var/www/dokuwiki && \
-    rm -rf dokuwiki/data && \
-    rm -rf dokuwiki/conf && \
-    rm -rf dokuwiki/install.php
+    chown -R www-data:www-data /var/www/dokuwiki
 
 RUN cd /var/www/dokuwiki/lib/plugins && \
     wget -O dw2pdf.tar.gz https://github.com/splitbrain/dokuwiki-plugin-dw2pdf/tarball/master && \
@@ -27,9 +24,6 @@ RUN cd /var/www/dokuwiki/lib/plugins && \
     wget -O secure-login.tar.gz https://github.com/bagley/dokuwiki-securelogin/tarball/master && \ 
     mkdir securelogin && \
     tar xvf secure-login.tar.gz -C securelogin --strip-components=1 && \
-    wget -O markdowku.tar.gz https://komkon2.de/markdowku/markdowku.tgz && \
-    mkdir markdowku && \
-    tar xvf markdowku.tar.gz -C markdowku --strip-components=1 && \
     wget -O meta.tar.gz https://github.com/dokufreaks/plugin-meta/tarball/master && \
     mkdir meta && \
     tar xvf meta.tar.gz -C meta --strip-components=1 && \
@@ -45,7 +39,7 @@ RUN echo '<?php \n\
 // among other things. For more information on this issue, please see: \n\
 // http://www.dokuwiki.org/devel:coding_style#php_closing_tags \n\
 \n\
-define('"'"'DOKU_CONF'"'"','"'"'/wiki/conf/'"'"');' > /var/www/dokuwiki/inc/preload.php 
+define('"'"'DOKU_CONF'"'"','"'"'/var/www/dokuwiki/conf/'"'"');' > /var/www/dokuwiki/inc/preload.php 
 
 EXPOSE 80 443
 
